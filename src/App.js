@@ -1,11 +1,13 @@
 import { Fragment } from 'react';
 import './App.css';
+import Cart from './components/Cart/Cart';
 import Header from './components/Layout/Header';
 import Meals from './components/Meals/Meals';
 
 function App() {
   return (
     <Fragment>
+     
 
     
     <Header />
@@ -13,6 +15,7 @@ function App() {
       <Meals />
 
     </main>
+    <Cart />
 
     </Fragment>
   );
