@@ -50,10 +50,16 @@ import classes from "./AvailableMeals.module.css";
 const AvailableMeals = () => {
   const [allMeals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [httpError, sethttpError] = useState();
   
   useEffect(() => {
     const fetchMeals = async () => {
      const response = await fetch('https://foodapp-551f3-default-rtdb.firebaseio.com/meals.json');
+     
+     if (!response.ok) {
+      throw new Error('Something Crazy Went Wrong');
+     }
+     
      const responseData = await response.json();
 
      const loadedMeals = [];
@@ -70,8 +76,12 @@ const AvailableMeals = () => {
      setIsLoading(false)
 
     };
-    fetchMeals();
-  }, []);
+    
+      fetchMeals().catch((error) => {
+      setIsLoading(false);
+      sethttpError(error.message);
+    });
+ }, []);
 
   if (isLoading) {
     return (
@@ -79,6 +89,14 @@ const AvailableMeals = () => {
         <p>Fetching Meals...</p>
       </section>
     );
+  }
+
+  if (httpError) {
+    return (
+      <section className={classes.MealsError}>
+        <p>{httpError}</p>
+      </section>
+    )
   }
 
 
