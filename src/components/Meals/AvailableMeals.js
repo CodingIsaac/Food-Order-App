@@ -51,37 +51,37 @@ const AvailableMeals = () => {
   const [allMeals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, sethttpError] = useState();
-  
+
   useEffect(() => {
     const fetchMeals = async () => {
-     const response = await fetch('https://foodapp-551f3-default-rtdb.firebaseio.com/meals.json');
-     
-     if (!response.ok) {
-      throw new Error('Something Crazy Went Wrong');
-     }
-     
-     const responseData = await response.json();
+      const response = await fetch(
+        "https://foodapp-551f3-default-rtdb.firebaseio.com/meals.json"
+      );
 
-     const loadedMeals = [];
-     for (const key in responseData) {
-      loadedMeals.push({
-        id:key,
-        name: responseData[key].name,
-        description:responseData[key].description,
-        price: responseData[key].price
+      if (!response.ok) {
+        throw new Error("Something Crazy Went Wrong");
+      }
 
-      });
-     }
-     setMeals(loadedMeals);
-     setIsLoading(false)
+      const responseData = await response.json();
 
+      const loadedMeals = [];
+      for (const key in responseData) {
+        loadedMeals.push({
+          id: key,
+          name: responseData[key].name,
+          description: responseData[key].description,
+          price: responseData[key].price,
+        });
+      }
+      setMeals(loadedMeals);
+      setIsLoading(false);
     };
-    
-      fetchMeals().catch((error) => {
+
+    fetchMeals().catch((error) => {
       setIsLoading(false);
       sethttpError(error.message);
     });
- }, []);
+  }, []);
 
   if (isLoading) {
     return (
@@ -96,19 +96,17 @@ const AvailableMeals = () => {
       <section className={classes.MealsError}>
         <p>{httpError}</p>
       </section>
-    )
+    );
   }
-
-
 
   const mealsList = allMeals.map((meal) => (
     <MealItem
       key={meal.id}
-    //   meal ={meal}
-    id = {meal.id}
+      //   meal ={meal}
+      id={meal.id}
       name={meal.name}
-       description={meal.description}
-       price={meal.price}
+      description={meal.description}
+      price={meal.price}
     />
   ));
   return (
