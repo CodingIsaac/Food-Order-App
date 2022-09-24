@@ -13,16 +13,15 @@ const Cart = (props) => {
   const cartctx = useContext(CartContext);
 
   const totalAmount = `$${cartctx.totalAmount.toFixed(2)}`;
-  
 
   const hasItems = cartctx.items.length > 0;
 
-  const cartItemRemoveHandler = id => {
+  const cartItemRemoveHandler = (id) => {
     cartctx.removeItem(id);
   };
 
-  const cartItemAddHandler = item => {
-    cartctx.addItem({...item, amount:1});
+  const cartItemAddHandler = (item) => {
+    cartctx.addItem({ ...item, amount: 1 });
   };
 
   const orderHandler = () => {
@@ -44,20 +43,18 @@ const Cart = (props) => {
     </ul>
   );
 
-  // const modalAction = (
-  //   <div className={classes.actions}>
-  //     <button className={classes['button--alt']} onClick={props.onClose}>
-  //       Close Order
-  //     </button>
-  //     { hasItems && (
-  //       <button className={classes.button} onClick={orderHandler}>
-  //         Place Order
-  //       </button>
-
-  //     ) }
-
-  //     </div>
-  //   )
+  const modalAction = (
+    <div className={classes.actions}>
+      <button className={classes["button--alt"]} onClick={props.onClose}>
+        Close
+      </button>
+      {hasItems && (
+        <button className={classes.button} onClick={orderHandler}>
+          Place Order
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <Modal onClose={props.onClose}>
@@ -66,14 +63,8 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-     {!isCheckout && <Checkout onCancel={props.onClose} />}
-     {/* {!isCheckout && modalAction} */}
-      <div className={classes.actions}>
-        <button className={classes["button--alt"]} onClick={props.onClose}>
-          Close
-        </button>
-        {hasItems && <button className={classes.button}>Place Order</button>}
-      </div>
+      {isCheckout && <Checkout onCancel={props.onClose} />}
+      {!isCheckout && modalAction}
     </Modal>
   );
 };
